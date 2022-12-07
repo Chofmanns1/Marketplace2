@@ -6,6 +6,8 @@ import { Signup } from './Components/Signup'
 import { NotFound } from './Components/NotFound'
 import { AddProducts } from './Components/AddProducts'
 import { Cart } from './Components/Cart'
+import { DelProducts } from './Components/DelProducts'
+import { ListUsers } from './Components/ListUsers'
 
 export const App = () => {
   return (
@@ -16,6 +18,8 @@ export const App = () => {
         <Route path="/login" component={Login} />
         <Route path="/add-products" component={AddProducts} />
         <Route path="/cart" component={Cart} />
+        <Route path="/users-list" component={ListUsers} />
+        <Route path="/delete-products" component={DelProducts} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

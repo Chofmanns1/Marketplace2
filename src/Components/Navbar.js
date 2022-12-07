@@ -1,10 +1,12 @@
-import React from 'react'
+/*import React from 'react'*/
 import { Link } from 'react-router-dom'
 import logo from '../Images/logo.png'
 import { Icon } from 'react-icons-kit'
 import { shoppingCart } from 'react-icons-kit/feather/shoppingCart'
-import { auth } from '../Config/Config'
+/*import { auth } from '../Config/Config'*/
 import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { auth, fs } from '../Config/Config'
 
 export const Navbar = ({ user, totalProducts }) => {
 
@@ -12,7 +14,7 @@ export const Navbar = ({ user, totalProducts }) => {
 
     const handleLogout = () => {
         auth.signOut().then(() => {
-            history.push('/login');
+            history.push('/');
         })
     }
 
