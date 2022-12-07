@@ -1,20 +1,37 @@
-/*import React from 'react'*/
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../Images/logo.png'
 import { Icon } from 'react-icons-kit'
 import { shoppingCart } from 'react-icons-kit/feather/shoppingCart'
-/*import { auth } from '../Config/Config'*/
+import { auth } from '../Config/Config'
 import { useHistory } from 'react-router-dom'
-import React, { useState, useEffect } from 'react'
-import { auth, fs } from '../Config/Config'
+import { fs } from '../Config/Config'
+
 
 export const Navbar = ({ user, totalProducts }) => {
-
+    function GetCurrentUser() {
+        const [user, setUser] = useState(null);
+        useEffect(() => {
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    fs.collection('users').doc(user.uid).get().then(snapshot => {
+                        setUser(snapshot.data().Rol);
+                    })
+                }
+                else {
+                    setUser(null);
+                }
+            })
+        }, [])
+        return user;
+    }
+    const test1 = GetCurrentUser();
+    console.log(test1)
     const history = useHistory();
 
     const handleLogout = () => {
         auth.signOut().then(() => {
-            history.push('/');
+            history.push('/login');
         })
     }
 
@@ -34,11 +51,11 @@ export const Navbar = ({ user, totalProducts }) => {
             <div className='rightside'>
 
                 {!user && <>
-                    <div><Link className='navlink' to="signup">Registrarse</Link></div>
-                    <div><Link className='navlink' to="login">Ingresar</Link></div>
+                    <div><Link className='navlink' to="signup">SIGN UP</Link></div>
+                    <div><Link className='navlink' to="login">LOGIN</Link></div>
                 </>}
 
-                {user && <>
+                {user && test1 == 'User' && <>
                     <div><Link className='navlink' to="/">{user}</Link></div>
                     <div className='cart-menu-btn'>
                         <Link className='navlink' to="cart">
@@ -47,7 +64,18 @@ export const Navbar = ({ user, totalProducts }) => {
                         <span className='cart-indicator'>{totalProducts}</span>
                     </div>
                     <div className='btn btn-danger btn-md'
-                        onClick={handleLogout}>Desconectarse</div>
+                        onClick={handleLogout}>LOGOUT</div>
+
+                </>}
+                {user && test1 == 'Admin' && <>
+                    <div><Link className='navlink' to="/">{user}</Link></div>
+                    <div className='cart-menu-btn'>
+                        <div><Link className='navlink' to="users-list">Lista de usuarios</Link></div>
+                    </div>
+                    <div className='btn btn-danger btn-md'
+                        onClick={handleLogout}>LOGOUT</div>
+
+
                 </>}
 
             </div>

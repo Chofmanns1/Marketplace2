@@ -208,7 +208,7 @@ export const Cart = () => {
                         </div>
                         <br></br>
                         <StripeCheckout
-                            stripeKey='pk_test_51Hhu6bK4kL4WRmvGEUkTmdFw1lUtTAnadBSDb0eXGuA2JJGrntIBdm10llYu5RbPbLbaS1My74Rgdi0n5ePYIGB600p3V4GKmK'
+                            stripeKey='pk_test_51MC7qoB86Krb6U45d6kk1Vhrf5GqBx095LEwENe3cXRJe8gh7eDrpazz4KRz7cG0fuGQv3J491XFxSNsEdEMMVKK00T6vuhEW6'
                             token={handleToken}
                             billingAddress
                             shippingAddress

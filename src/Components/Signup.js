@@ -10,6 +10,10 @@ export const Signup = () => {
     const [fullName, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [phone, setPhone] = useState('');
+    const [direction, setDirection] = useState('');
+    const [city, setCity] = useState('');
+    const [region, setRegion] = useState('');
 
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
@@ -22,12 +26,22 @@ export const Signup = () => {
             fs.collection('users').doc(credentials.user.uid).set({
                 FullName: fullName,
                 Email: email,
-                Password: password
+                Password: password,
+                Rol: document.getElementById("rol").value,
+                Telefono: phone,
+                Direccion: direction,
+                Ciudad: city,
+                Region: region,
+                Especialidad: document.getElementById("speciality").value
             }).then(() => {
                 setSuccessMsg('Signup Successfull. You will now automatically get redirected to Login');
                 setFullname('');
                 setEmail('');
                 setPassword('');
+                setPhone('');
+                setDirection('');
+                setCity('');
+                setRegion('');
                 setErrorMsg('');
                 setTimeout(() => {
                     setSuccessMsg('');
@@ -62,11 +76,46 @@ export const Signup = () => {
                 <input type="password" className='form-control' required
                     onChange={(e) => setPassword(e.target.value)} value={password}></input>
                 <br></br>
+                <br></br>
+                <label>Telefono</label>
+                <input type="text" className='form-control' required
+                    onChange={(e) => setPhone(e.target.value)} value={phone}></input>
+                <br></br>
+                <br></br>
+                <label>Direccion</label>
+                <input type="text" className='form-control' required
+                    onChange={(e) => setDirection(e.target.value)} value={direction}></input>
+                <br></br>
+                <br></br>
+                <label>Ciudad</label>
+                <input type="text" className='form-control' required
+                    onChange={(e) => setCity(e.target.value)} value={city}></input>
+                <br></br>
+                <br></br>
+                <label>Region</label>
+                <input type="text" className='form-control' required
+                    onChange={(e) => setRegion(e.target.value)} value={region}></input>
+                <br></br>
+                <label>
+                    Rol:
+                    <select id="rol">
+                        <option value="Admin">Administrador</option>
+                        <option value="User">Usuario</option>
+                    </select>
+                </label>
+                <label>
+                    Rol:
+                    <select id="speciality">
+                        <option value="T1">Trabajador 1</option>
+                        <option value="T2">Trabajador 2</option>
+                    </select>
+                </label>
                 <div className='btn-box'>
                     <span>Ya tengo una cuenta, ingresar
                         <Link to="login" className='link'> aqui</Link></span>
                     <button type="submit" className='btn btn-success btn-md'>Registrarse</button>
                 </div>
+
                 <div>
                     <span>
                         <Link to="/" className='return'> Volver </Link></span>

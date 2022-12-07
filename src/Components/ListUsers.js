@@ -1,72 +1,72 @@
-import React,{useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Navbar } from './Navbar'
 import { Products } from './Products'
-import {auth,fs} from '../Config/Config'
+import { auth, fs } from '../Config/Config'
 
 export const ListUsers = (props) => {
 
     // getting current user uid
-    function GetUserUid(){
-        const [uid, setUid]=useState(null);
-        useEffect(()=>{
-            auth.onAuthStateChanged(user=>{
-                if(user){
+    function GetUserUid() {
+        const [uid, setUid] = useState(null);
+        useEffect(() => {
+            auth.onAuthStateChanged(user => {
+                if (user) {
                     setUid(user.uid);
                 }
             })
-        },[])
+        }, [])
         return uid;
     }
 
     const uid = GetUserUid();
 
     // getting current user function
-    function GetCurrentUser(){
-        const [user, setUser]=useState(null);
-        useEffect(()=>{
-            auth.onAuthStateChanged(user=>{
-                if(user){
-                    fs.collection('users').doc(user.uid).get().then(snapshot=>{
+    function GetCurrentUser() {
+        const [user, setUser] = useState(null);
+        useEffect(() => {
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    fs.collection('users').doc(user.uid).get().then(snapshot => {
                         setUser(snapshot.data().FullName);
                     })
                 }
-                else{
+                else {
                     setUser(null);
                 }
             })
-        },[])
+        }, [])
         return user;
     }
 
     const user = GetCurrentUser();
     // console.log(user);
-    
+
     // state of products
-    const [products, setProducts]=useState([]);
+    const [products, setProducts] = useState([]);
 
     // getting products function
-    const getProducts = async ()=>{
+    const getProducts = async () => {
         const products = await fs.collection('users').get();
         const productsArray = [];
-        for (var snap of products.docs){
+        for (var snap of products.docs) {
             var data = snap.data();
             data.ID = snap.id;
             productsArray.push({
                 ...data
             })
-            if(productsArray.length === products.docs.length){
+            if (productsArray.length === products.docs.length) {
                 setProducts(productsArray);
             }
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getProducts();
-    },[])
+    }, [])
 
-   return (
+    return (
         <div>
-            <Navbar user={user} uid={uid}/>
+            <Navbar user={user} uid={uid} />
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
@@ -80,22 +80,20 @@ export const ListUsers = (props) => {
                                     <th>Dirección</th>
                                     <th>Ciudad</th>
                                     <th>Region</th>
-                                    <th>Pais</th>
                                     <th>Especialidad</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    products.map((product)=>{
-                                        return(
+                                    products.map((product) => {
+                                        return (
                                             <tr key={product.ID}>
                                                 <td>{product.FullName}</td>
                                                 <td>{product.Email}</td>
-                                                <td>{product.Phone}</td>
-                                                <td>{product.Address}</td>
-                                                <td>{product.City}</td>
+                                                <td>{product.Telefono}</td>
+                                                <td>{product.Direccion}</td>
+                                                <td>{product.Ciudad}</td>
                                                 <td>{product.Region}</td>
-                                                <td>{product.Country}</td>
                                                 <td>{product.Especialidad}</td>
                                             </tr>
                                         )
@@ -108,5 +106,5 @@ export const ListUsers = (props) => {
             </div>
         </div>
     )
-                                                                                                                                                                                                                           
+
 }
